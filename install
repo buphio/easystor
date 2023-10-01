@@ -1,0 +1,56 @@
+#!/bin/bash
+
+function check_status {
+    if [ $? -eq 0 ]; then
+        echo "DONE."
+    else
+        echo "FAILED."
+        echo "! Exiting installer. Please check the log file." && echo
+        exit 1
+    fi
+}
+
+sudo echo > log
+
+echo
+echo "---- EASYSTOR Installer ----"
+echo
+
+echo -n "- Installing latest system updates ... "
+sudo apt -qq update &>> log
+sudo apt -qq upgrade -y &>> log
+check_status
+
+echo -n "- Installing required tools ... "
+sudo apt -qq install zfsutils-linux samba fio screen smartmontools -y &>> log
+check_status
+
+echo -n "- Creating zpool RAID1 ... "
+sudo zpool create -f -o ashift=12 RAID1 raidz2 /dev/disk/by-id/wwn-0x5000cca255cc6f16 /dev/disk/by-id/wwn-0x5000cca255cf2a59 /dev/disk/by-id/wwn-0x5000cca255cec36b /dev/disk/by-id/wwn-0x5000cca24dd214a5 /dev/disk/by-id/wwn-0x5000cca255cc6b01 /dev/disk/by-id/wwn-0x5000cca24dd1f4a4 &>> log \
+    && sudo zpool add -f -o ashift=12 RAID1 raidz2 /dev/disk/by-id/wwn-0x5000cca255cc7449 /dev/disk/by-id/wwn-0x5000cca255cb7f7e /dev/disk/by-id/wwn-0x5000cca255ce27bd /dev/disk/by-id/wwn-0x5000c500b4e8bd1c /dev/disk/by-id/wwn-0x5000c500b4e41fce /dev/disk/by-id/wwn-0x5000c500b53923d4 &>> log
+sudo zfs create -o recordsize=1M -o compression=lz4 -o atime=off RAID1/archive
+sudo zfs create -o recordsize=1M -o compression=off -o atime=off RAID1/media
+sudo zfs create -o recordsize=1M -o compression=off -o atime=off RAID1/projects
+check_status
+zfs list
+read -p "Enter quota size: " QUOTA
+zfs set quota=${QUOTA}TB TANK1
+
+echo -n "- Configuring SAMBA ... "
+sudo ufw allow 'Samba' \
+    && sudo mv /etc/samba/smb.conf{,.backup} \
+    && sudo cp smb.conf /etc/samba/smb.conf \
+    && sudo groupadd storage \
+    && sudo useradd -M -s /usr/sbin/nologin -G storage andreas \
+    && sudo useradd -M -s /usr/sbin/nologin -G storage david \
+    && sudo useradd -M -s /usr/sbin/nologin -G storage sadmin \
+    && sudo chown storage:sadmin /RAID1/archive \
+    && sudo chmod 2770 /RAID1/archive \
+    && sudo smbpasswd -a sadmin \
+    && sudo smbpasswd -e sadmin \
+    && sudo smbpasswd -a andreas \
+    && sudo smbpasswd -e andreas \
+    && sudo smbpasswd -a david \
+    && sudo smbpasswd -e david \
+    && sudo systemctl restart nmbd
+check_status

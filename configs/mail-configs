@@ -1,0 +1,18 @@
+Mail konfigurieren:
+
+https://devanswers.co/postfix-external-smtp-server/
+
+
+relayhost = [securemail-ppe-live.prossl.de]:587
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+smtp_tls_CAfile = /etc/postfix/cacert.pem
+smtp_use_tls = yes
+smtp_generic_maps = hash:/etc/postfix/generic
+
+
+echo "sadmin@easystor messages@ppe.live" > /etc/postfix/generic
+echo "root@easystor messages@ppe.live" > /etc/postfix/generic
+postmap /etc/postfix/generic
+systemctl restart postfix

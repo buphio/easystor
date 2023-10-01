@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DIR=/home/sadmin
+CURR_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+OLD_IP=$(head -n 1 $DIR/config/dynip.conf)
+
+#echo $CURR_IP
+#echo $OLD_IP
+
+if [ "$CURR_IP" != "$OLD_IP" ]; then
+    echo $CURR_IP > $DIR/config/dynip.conf
+    echo "<pre>$CURR_IP</pre>" | mail -a "From: PPE Storage <messages@ppe.live>" -a "Content-type: text/html" -s "PPE Storage - Dynamic IP" pbuchinger@protonmail.ch
+fi

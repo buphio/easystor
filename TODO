@@ -1,0 +1,23 @@
+
+- pfsense ddns (https://docs.netgate.com/pfsense/en/latest/dns/dynamic-dns.html)
+- SMB optimizations
+- ufw enable
+- ssh key-based auth && fail2ban
+- get_drive script -> add /dev/sdx
+
+
+- fio
+    fio --name=test --rw=read --direct=1 --bs=1M --size=16G
+
+
+DatumistCDPC62
+
+
+sadmin:versa21MetTettle!
+
+Samba User:
+    sadmin:MBe6Hpfg
+    andreas:3a7GwcGM
+    david:ZuVaCU4W
+    sonja:BYkwy6Es
+    deniz:TUfFVD3n

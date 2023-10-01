@@ -1,0 +1,989 @@
+    1  apt update
+    2  apt upgrade
+    3  reboot now
+    4  apt install zfsutils-linux samba fio screen smartmontools
+    5  clear
+    6  smartctl -i /dev/sda
+    7  lsblk
+    8  smartctl -i /dev/sda
+    9  smartctl -c /dev/sda
+   10  smartctl -t /dev/sda
+   11  smartctl -t short /dev/sda
+   12  smartctl -l selftest /dev/sda
+   13  smartctl -t short /dev/sdb
+   14  time
+   15  date
+   16  timedatectl list-timezones
+   17  timedatectl set-timezone Europe/Vienna
+   18  timedatectl
+   19  clear
+   20  ls
+   21  clear
+   22  lsblk
+   23  smartctl -l selftest /dev/sdb
+   24  smartctl -t short /dev/sdc
+   25  smartctl -t short /dev/sdd
+   26  smartctl -t short /dev/sde
+   27  smartctl -t short /dev/sdf
+   28  smartctl -t short /dev/sdg
+   29  smartctl -t short /dev/sdh
+   30  smartctl -t short /dev/sdi
+   31  smartctl -t short /dev/sdj
+   32  smartctl -t short /dev/sdk
+   33  smartctl -t short /dev/sdl
+   34  smartctl -t short /dev/sdm
+   35  smartctl -t short /dev/sdn
+   36  lsblk
+   37  smartctl -l selftest /dev/sd*
+   38  smartctl -l selftest /dev/sdc
+   39  smartctl -l selftest /dev/sdd
+   40  smartctl -l selftest /dev/sde
+   41  smartctl -l selftest /dev/sdf
+   42  smartctl -l selftest /dev/sdg
+   43  smartctl -l selftest /dev/sdc
+   44  smartctl -l selftest /dev/sdd
+   45  smartctl -l selftest /dev/sde
+   46  smartctl -l selftest /dev/sdm
+   47  clear
+   48  clear history
+   49  man history
+   50  cat .bash_history
+   51  clear
+   52  zpool status
+   53  ufw allow 'Samba'
+   54  mv /etc/samba/smb.conf{,.backup}
+   55  vim /etc/samba/smb.conf
+   56  groupadd storage
+   57  useradd -M -s /usr/sbin/nologin -G storage andreas
+   58  useradd -M -s /usr/sbin/nologin -G storage david
+   59  useradd -M -s /usr/sbin/nologin -G storage sonja
+   60  useradd -M -s /usr/sbin/nologin -G storage deniz
+   61  zpool create -f -o ashift=12 RAID1 raidz2 /dev/disk/by-id/wwn-0x5000cca255cc6f16 /dev/disk/by-id/wwn-0x5000cca255cf2a59 /dev/disk/by-id/wwn-0x5000cca255cec36b /dev/disk/by-id/wwn-0x5000cca24dd214a5 /dev/disk/by-id/wwn-0x5000cca255cc6b01 /dev/disk/by-id/wwn-0x5000cca24dd1f4a4
+   62  sudo zpool add -f -o ashift=12 RAID1 raidz2 /dev/disk/by-id/wwn-0x5000cca255cc7449 /dev/disk/by-id/wwn-0x5000cca255cb7f7e /dev/disk/by-id/wwn-0x5000cca255ce27bd /dev/disk/by-id/wwn-0x5000c500b4e8bd1c /dev/disk/by-id/wwn-0x5000c500b4e41fce /dev/disk/by-id/wwn-0x5000c500b53923d4
+   63  zpool status
+   64  zfs list
+   65  zfs create -o recordsize=1M -o compression=lz4 -o atime=off RAID1/archive
+   66  zfs create -o recordsize=1M -o compression=off -o atime=off RAID1/media
+   67  zfs create -o recordsize=1M -o compression=off -o atime=off RAID1/projects
+   68  zfs list
+   69  zfs set quota=38TB RAID1
+   70  zfs list
+   71  ls
+   72  cd /RAID1/
+   73  ll
+   74  fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --filename=random_read_write.fio --bs=4k --iodepth=64 --size=4G --readwrite=randrw --rwmixread=75
+   75  fio --name=seqread --rw=read --direct=1 --ioengine=libaio --bs=8k --numjobs=8 --size=1G --runtime=600 --group_reporting
+   76  clear
+   77  zpool status
+   78  cat /var/mail/root
+   79  clear
+   80  history
+   81  clear
+   82  cat /etc/passwd
+   83  smbpasswd -a andreas
+   84  smbpasswd -e andreas
+   85  smbpasswd -a david
+   86  smbpasswd -e david
+   87  smbpasswd -a sonja
+   88  smbpasswd -e sonja
+   89  smbpasswd -a deniz
+   90  smbpasswd -e deniz
+   91  clear
+   92  smbpasswd -a sadmin
+   93  groups sadmin
+   94  useradd -G storage sadmin
+   95  usermod -g storage sadmin
+   96  exit
+   97  clear
+   98  chown storage:sadmin /RAID1/archive
+   99  chown storage:andreas /RAID1/archive
+  100  chown sadmin:storage /RAID1/archive
+  101  ll /RAID1
+  102  chown sadmin:storage /RAID1/media
+  103  chown sadmin:storage /RAID1/projects
+  104  chmod 2770 /RAID1/archive
+  105  chmod 2770 /RAID1/media/
+  106  chmod 2770 /RAID1/projects/
+  107  clear
+  108  ll /RAID1
+  109  rm /RAID1/random_read_write.fio
+  110  rm /RAID1/seqread.0.0
+  111  ll /RAID1/archive/
+  112  systemctl restart nmbd
+  113  smbpasswd -a andreas
+  114  systemctl restart nmbd
+  115  vim /etc/samba/smb.conf
+  116  systemctl restart nmbd
+  117  testparm
+  118  systemctl restart nmbd
+  119  vim /etc/samba/smb.conf
+  120  systemctl restart nmbd
+  121  zpool status
+  122  cat /var/mail/root
+  123  smartctl -l selftest /dev/sdc
+  124  clear
+  125  zpool status
+  126  zfs list
+  127  ll /RAID1/projects/
+  128  zfs list
+  129  zpool status
+  130  clear
+  131  ll /RAID1/archive/
+  132  cat /etc/samba/smb.conf
+  133  ll /RAID1/projects/
+  134  clear
+  135  zfs list
+  136  zpool status
+  137  logout
+  138  exit
+  139  clear
+  140  cat /var/mail/root
+  141  man smartctl
+  142  smartctl -i /dev/sdd
+  143  man smartctl
+  144  smartctl -a /dev/sdd
+  145  smartctl -a /dev/sda
+  146  smartctl -a /dev/sdb
+  147  smartctl -a /dev/sdc
+  148  smartctl -a /dev/sdd
+  149  smartctl -a /dev/sde
+  150  smartctl -a /dev/sdf
+  151  smartctl -a /dev/sdg
+  152  smartctl -a /dev/sdh
+  153  clear
+  154  ls
+  155  clear
+  156  exit
+  157  hddtemp /dev/sda
+  158  hddtemp /dev/sdb
+  159  hddtemp /dev/sdc
+  160  hddtemp /dev/sdd
+  161  hddtemp /dev/sde
+  162  hddtemp /dev/sdf
+  163  clear
+  164  zpool status -c temp
+  165  exit
+  166  hddtemp /dev/sdf
+  167  hddtemp /dev/sda
+  168  hddtemp /dev/sdb
+  169  hddtemp /dev/sdc
+  170  hddtemp /dev/sdd
+  171  hddtemp /dev/sde
+  172  hddtemp /dev/sdf
+  173  clear
+  174  logout
+  175  exit
+  176  hddtemp /dev/sda
+  177  hddtemp /dev/sdb
+  178  hddtemp /dev/sdc
+  179  hddtemp /dev/sdd
+  180  ls /dev/sd*
+  181  hddtemp /dev/sde
+  182  clear
+  183  exit
+  184  pwd
+  185  crontab -e
+  186  ls
+  187  crontab -e
+  188  ./daily_summary
+  189  cat /var/log/mail.log
+  190  ls
+  191  vim daily_summary
+  192  exit
+  193  clear
+  194  cd ..
+  195  ls
+  196  cd scripts/
+  197  ls
+  198  ./daily_summary
+  199  cat ../logs/20190719_summary.txt
+  200  crontab -e
+  201  rm ../logs/20190719_summary.txt
+  202  vim daily_summary
+  203  crontab -e
+  204  ll ../logs/
+  205  cd ../logs/
+  206  ls
+  207  mv 2019071* summaries/
+  208  ll
+  209  mv export_delete/ export_cleanup
+  210  cd ..
+  211  cd scripts/
+  212  ls
+  213  vim daily_summary
+  214  ./daily_summary
+  215  ll ../logs/summaries/
+  216  rm ../logs/summaries/20190719_summary.txt
+  217  ll ../logs/summaries/
+  218  cat /var/log/syslog
+  219  systemctl status ufw
+  220  clear
+  221  systemctl status ufw
+  222  cat /var/log/syslog
+  223  smartctl -t short /dev/sdj
+  224  mkdir /easystor
+  225  ll /
+  226  chmod -R 755 /easystor/
+  227  cd ..
+  228  ls
+  229  cp -R logs /easystor/
+  230  cp -R scripts/ /easystor/
+  231  clear
+  232  ls
+  233  cd /easystor/
+  234  clear
+  235  ls
+  236  crontab -e
+  237  ll /easystor/
+  238  cd scripts/
+  239  ls
+  240  ./daily_summary
+  241  vim daily_summary
+  242  rm ../logs/summaries/20190719_summary.txt
+  243  ll ../logs/summaries/
+  244  chmod -R 755 ../logs/
+  245  ll ../logs/summaries/
+  246  chmod -R 766 ../logs/
+  247  ll ../logs/summaries/
+  248  chmod -R 744 ../logs/
+  249  ll ../logs/summaries/
+  250  clear
+  251  crontab -e
+  252  vim daily_summary
+  253  ./daily_summary
+  254  ll ../scripts/daily_summary/
+  255  ll ../logs/summaries/
+  256  cat ../logs/summaries/20190719_summary.log
+  257  crontab -e
+  258  cat /var/mail/root
+  259  cd
+  260  ls
+  261  pwd
+  262  cd /easystor/
+  263  ls
+  264  cat cron.log
+  265  cd scripts/
+  266  ls
+  267  vim daily_summary
+  268  ./daily_summary
+  269  ll ../logs/
+  270  ll ../logs/summaries/
+  271  cat ../logs/summaries/20190719_summary.log
+  272  vim daily_summary
+  273  ./daily_summary
+  274  cat ../logs/summaries/20190719_summary.log
+  275  crontab -e
+  276  ll
+  277  rm /easystor/cron.log
+  278  clear
+  279  ll ../logs/summaries/
+  280  cat ../cron.log
+  281  cd ..
+  282  ls
+  283  cat cron.log
+  284  cat logs/summaries/20190719_summary.log
+  285  hddtemp
+  286  crontab -e
+  287  cd
+  288  clear
+  289  ls
+  290  pwd
+  291  rm -rf /easystor/
+  292  exit
+  293  ./daily_summary
+  294  crontab -e
+  295  pwd
+  296  crontab -e
+  297  vim daily_summary
+  298  crontab -e
+  299  /home/sadmin/scripts
+  300  /home/sadmin/scripts/home/sadmin/scripts\
+  301  crontab -e
+  302  ls
+  303  crontab -e
+  304  ls
+  305  crontab -e
+  306  clear
+  307  logout
+  308  exit
+  309  ls
+  310  ll
+  311  ll logs/warnings/
+  312  cat /var/mail/root
+  313  cat /var/log/mail
+  314  cat /var/log/mail.log
+  315  cd scripts/
+  316  ls
+  317  cat status_check
+  318  ./status_check
+  319  cat /var/log/mail.log
+  320  sudo postmap /etc/postfix/sasl_passwd
+  321  sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+  322  sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+  323  ./status_check
+  324  cat /var/log/mail.log
+  325  logout
+  326  ls
+  327  clear
+  328  vim status_check
+  329  clear
+  330  cd ..
+  331  ls
+  332  clear
+  333  cd logs/warnings/
+  334  ls
+  335  rm *
+  336  ll
+  337  cd ..
+  338  crontab -e
+  339  clear
+  340  cd ..
+  341  cd scripts/
+  342  ls
+  343  vim status_check
+  344  exit
+  345  crontab -e
+  346  ll
+  347  clear
+  348  crontab -e
+  349  exit
+  350  crontab -e
+  351  ls
+  352  crontab -e
+  353  cat del_exports
+  354  ll /RAID1/archive/
+  355  exit
+  356  crontab -e
+  357  clear
+  358  exit
+  359  ls
+  360  zpool
+  361  zpool status
+  362  scrub -s
+  363  zpool scrub -s
+  364  zpool scrub RAID1
+  365  zpool status
+  366  man watch
+  367  clear
+  368  watch -n 2 zpool status
+  369  watch -n 60 zpool status
+  370  watch -n 10 zpool status
+  371  clear
+  372  ls
+  373  vim /etc/netplan/50-cloud-init.yaml
+  374  ip addr
+  375  vim /etc/netplan/50-cloud-init.yaml
+  376  sudo netplan apply
+  377  ip addr
+  378  ip link set dev enp3s0f1 up
+  379  ip addr
+  380  vim /etc/netplan/50-cloud-init.yaml
+  381  clear
+  382  zpool status
+  383  cat /var/log/mail.log
+  384  ls
+  385  cd logs/
+  386  ls
+  387  cd warnings/
+  388  ls
+  389  cat 20190720-14\:00_warning.log
+  390  cd ..
+  391  ls
+  392  cd
+  393  ls
+  394  cd scripts/
+  395  ls
+  396  vim status_check
+  397  cat /etc/postfix/generic
+  398  vim /etc/postfix/generic
+  399  postmap /etc/postfix/generic
+  400  systemctl restart postfix
+  401  clear
+  402  cat /etc/postfix/generic
+  403  zpool status
+  404  ip addr
+  405  sudo netplan apply --debug
+  406  ip addr
+  407  clear
+  408  vim status_check
+  409  zpool status
+  410  exit
+  411  cat /sys/block/sdj/device/delte
+  412  cat /sys/block/sdj/device/delete
+  413  ps aux | grep smart
+  414  systemctl status smartmontools
+  415  hddtemp /dev/sdk
+  416  smartctl -a /dev/sdk | grep 194
+  417  smartctl -a /dev/sdn
+  418  systemctl stop smartmontools
+  419  systemctl status smartmontools
+  420  smartctl -t short /dev/sdn
+  421  systemctl status smartmontools
+  422  logout
+  423  exit
+  424  echo 1 > /sys/block/sdj/device/delete
+  425  logout
+  426  lsblk
+  427  zpool status
+  428  ll /dev/disk/by-id | grep sdn
+  429  udevadm info --query=all --name=/dev/sdn | grep ID_SERIAL
+  430  clear
+  431  zpool status
+  432  logout
+  433  exit
+  434  ls
+  435  ip addr
+  436  ls
+  437  crontab -e
+  438  history
+  439  zpool status
+  440  clear
+  441  crontab -e
+  442  clear
+  443  ls
+  444  exit
+  445  zpool status
+  446  zfs list
+  447  lsblk
+  448  clear
+  449  lsblk
+  450  clear
+  451  zpool status
+  452  which zpool
+  453  sudo -s
+  454  history
+  455  ll -a
+  456  sudo chown sadmin:storage .bash_history
+  457  ll -a
+  458  shopt -s
+  459  clear
+  460  history
+  461  logout
+  462  history
+  463  cat .bash_history
+  464  clear
+  465  ls
+  466  clear
+  467  zpool status
+  468  zpool status -c
+  469  zpool status -c smart
+  470  ls
+  471  mkdir config
+  472  ls
+  473  cd config
+  474  vim drive_order.log
+  475  ls
+  476  ll
+  477  mv drive_order.log drives.conf
+  478  vim drives.conf
+  479  logout
+  480  crontab -e
+  481  ls
+  482  cd ..
+  483  ls
+  484  tree
+  485  apt install tree
+  486  tree .
+  487  crontab -e
+  488  rm logs/summaries/20190720_summary.txt
+  489  tree
+  490  clear
+  491  logout
+  492  exit
+  493  zpool status
+  494  sudo systemctl status smartmontools
+  495  sudo systemctl start smartmontools
+  496  sudo systemctl status smartmontools
+  497  clear
+  498  sudo smbstatus
+  499  ip addr
+  500  clear
+  501  ls
+  502  cd scripts/
+  503  ls
+  504  cat del_exports
+  505  cat weekly_summary
+  506  cat status_check
+  507  sudo cat /etc/samba/smb.conf
+  508  ls
+  509  cd ..
+  510  ls
+  511  cd scripts/
+  512  ls
+  513  mv status_check chk_status
+  514  mv weekly_summary summary
+  515  sudo -s
+  516  logout
+  517  crontab -e
+  518  cat /var/mail/root
+  519  rm /var/mail/root
+  520  ll /var/mail
+  521  cat /var/mail/sadmin
+  522  cat /etc/aliases
+  523  man aliases
+  524  clear
+  525  logout
+  526  exit
+  527  clear
+  528  zpool status
+  529  ip addr
+  530  sudo smbstatus
+  531  clear
+  532  ls
+  533  tree
+  534  clear
+  535  ls
+  536  tree
+  537  sudo systemctl status smartmontols
+  538  sudo systemctl status smartmontools
+  539  sudo zpool status -c temp
+  540  zpool status -c temp
+  541  sudo -s
+  542  logout
+  543  zpool status
+  544  logout
+  545  clear
+  546  ll
+  547  logout
+  548  ip addr
+  549  ethtool enp3s0f1 | grep Speed
+  550  ethtool enp3s0f0 | grep Speed
+  551  ethtool enp3s0f1 | grep Speed
+  552  ethtool enp3s0f0 | grep Speed
+  553  ethtool enp3s0f1 | grep Speed
+  554  clear
+  555  ethtool enp3s0f0 | grep Speed
+  556  ethtool enp3s0f1 | grep Speed
+  557  clear
+  558  ethtool enp3s0f1 | grep Speed
+  559  ethtool enp3s0f0 | grep Speed
+  560  ethtool enp3s0f1 | grep Speed
+  561  ip addr
+  562  clear
+  563  ethtool enp3s0f0 | grep Speed
+  564  ethtool enp3s0f1 | grep Speed
+  565  ethtool enp3s0f0 | grep Speed
+  566  ethtool enp3s0f1 | grep Speed
+  567  ip addr
+  568  ethtool enp3s0f1 | grep Speed
+  569  ethtool enp3s0f0 | grep Speed
+  570  ethtool enp3s0f1 | grep Speed
+  571  ethtool enp3s0f0 | grep Speed
+  572  ethtool enp3s0f1 | grep Speed
+  573  ip addr
+  574  ethtool enp3s0f1 | grep Speed
+  575  ethtool enp3s0f0 | grep Speed
+  576  logout
+  577  ip addr
+  578  logout
+  579  ip addr
+  580  logout
+  581  clear
+  582  mail
+  583  exit
+  584  clear
+  585  ls
+  586  ll
+  587  clear
+  588  tree
+  589  ls
+  590  cat /usr/bin
+  591  ls /usr/bin
+  592  ls /usr/sbin
+  593  ls /sbin
+  594  clear
+  595  ls /usr/local/bin
+  596  ls /usr/local/sbin/
+  597  sudo ls /usr/local/bin
+  598  sudo ls /usr/local/sbin
+  599  cd scripts/
+  600  ls
+  601  pwd
+  602  cd
+  603  ln -s /home/sadmin/scripts/get_drive /usr/local/bin
+  604  sudo ln -s /home/sadmin/scripts/get_drive /usr/local/bin
+  605  get_drive
+  606  zpool status
+  607  get_drive ca24dd214a5
+  608  sudo ls /usr/local/sbin
+  609  sudo ls /usr/local/bin
+  610  ll /usr/local/bin
+  611  ls
+  612  cd config/
+  613  ls
+  614  ll
+  615  cd ..
+  616  ls
+  617  cd scripts/
+  618  ls
+  619  vim get_drive
+  620  cd
+  621  clear
+  622  get_drive
+  623  cd scripts/
+  624  ./get_drive
+  625  vim get_drive
+  626  ./get_drive
+  627  ./get_drive 63
+  628  cd
+  629  get_drive
+  630  get_drive wwn
+  631  clear
+  632  logout
+  633  ls
+  634  clear
+  635  ll
+  636  clear
+  637  ll
+  638  tree
+  639  cd config
+  640  ls
+  641  cat drives.conf
+  642  vim drives.conf
+  643  cat drvies.conf
+  644  cat drives.conf
+  645  clear
+  646  cat drives.conf
+  647  cd ..
+  648  ls
+  649  cd scripts
+  650  ls
+  651  cat summary
+  652  vim get_drive
+  653  chmod +x get_drive
+  654  vim get_drive
+  655  ./get_drive wwn-0x5000cca255cc7449
+  656  ls
+  657  zpool status
+  658  ls
+  659  ./get_drive wwn-0x5000cca255cc7449
+  660  zpool status -c smart
+  661  clear
+  662  ls
+  663  cd ..
+  664  tree
+  665  cd config
+  666  clear
+  667  ls
+  668  cd ..
+  669  ls
+  670  tree
+  671  cd config/
+  672  ls
+  673  vim smb.conf
+  674  ls
+  675  clear
+  676  tree
+  677  cd ..
+  678  clear
+  679  tree
+  680  su -s
+  681  sudo -s
+  682  mail
+  683  clear
+  684  sudo -s
+  685  ls
+  686  grep CRON /var/log/syslog
+  687  apt upgrade --dry-run
+  688  clear
+  689  ls
+  690  mail
+  691  tree
+  692  get_drive 7621
+  693  zpool status
+  694  get_drives wwn-0x5000cca255cb7f7e
+  695  get_drive wwn-0x5000cca255cb7f7e
+  696  clear
+  697  sudo apt install nginx --dry-run
+  698  sudo apt install ffmpeg --dry-run
+  699  aptitude
+  700  clear
+  701  zpool status
+  702  fio
+  703  cd /RAID1/
+  704  ls
+  705  tree
+  706  clear
+  707  ll
+  708  cd media
+  709  ls
+  710  ll
+  711  clear
+  712  logout
+  713  watch -n 1 iostat -xy --human 1 1
+  714  zpool status
+  715  sudo apt install iostat
+  716  iostat
+  717  sudo apt install sysstat
+  718  watch -n 1 iostat -xy --human 1 1
+  719  clear
+  720  ls
+  721  clear
+  722  tree
+  723  get_drive 32
+  724  get_drive
+  725  zpool status
+  726  logout
+  727  clear
+  728  ls
+  729  htop
+  730  watch -n 1 iostat -xy --human 1 1
+  731  ethtool enp3s0f0 | grep Speed
+  732  ethtool enp3s0f1 | grep Speed
+  733  clear
+  734  smbstatus
+  735  sudo smbstatus
+  736  clear
+  737  ls
+  738  zpool status
+  739  zpool status -c
+  740  zpool status -c enc
+  741  zpool status -c ses
+  742  zpool status -c lsblk
+  743  zpool status -c
+  744  zpool status -c iostat-10s
+  745  clear
+  746  zpool status
+  747  cd
+  748  clear
+  749  tree
+  750  pwd
+  751  logout
+  752  clear
+  753  zpool status
+  754  sudo systemctl status smartmontools
+  755  clear
+  756  ls
+  757  zpool status
+  758  ls
+  759  cat logs/summaries/20190721_summary.txt
+  760  clear
+  761  host myip.opendns.com resolver1.opendns.com
+  762  dig +short myip.opendns.com @resolver1.opendns.com
+  763  cd logs/
+  764  ls
+  765  cd ..
+  766  cd scripts/
+  767  ls
+  768  vim get_dyn_ip
+  769  chmod +x get_dyn_ip
+  770  ls
+  771  ll
+  772  cat summary
+  773  vim get_dyn_ip
+  774  ./get_dyn_ip
+  775  cat /var/log/mail.log
+  776  clear
+  777  cd
+  778  clear
+  779  tree
+  780  clear
+  781  logout
+  782  sudo apt install fail2ban --dry-run
+  783  logout
+  784  sudo apt install incrontab --dry-run
+  785  zpool status
+  786  sudo smbstatus
+  787  clear
+  788  logout
+  789  clear
+  790  ls
+  791  tree
+  792  sudo apt install icron --dry-run
+  793  sudo apt install incron --dry-run
+  794  logout
+  795  zpool status
+  796  clear
+  797  sudo apt upgrade --dry-run
+  798  clear
+  799  ls
+  800  tree
+  801  cd scripts/
+  802  ls
+  803  vim get_dyn_ip
+  804  ./get_dyn_ip
+  805  cd
+  806  clear
+  807  tree
+  808  cat config/dyn_ip.conf
+  809  clear
+  810  smbstatus
+  811  sudo smbstatus
+  812  zpool status -c temp
+  813  zpool status -c smart
+  814  get_drive wwn-0x5000cca255cf2a59
+  815  cd scripts/
+  816  ls
+  817  vim get_drive
+  818  history
+  819  cat /var/log/mail.log
+  820  clear
+  821  ls
+  822  vim get_drive
+  823  ls /dev/disk/by-id/ | grep wwn-0x5000cca255cf2a59
+  824  ll /dev/disk/by-id/ | grep wwn-0x5000cca255cf2a59
+  825  clear
+  826  cd
+  827  clear
+  828  tree
+  829  zpool status
+  830  logout
+  831  zpool status
+  832  zpool status -c temps
+  833  zpool status -c temp
+  834  logout
+  835  zpool status -c temp
+  836  cd scripts/
+  837  ls
+  838  ./get_dyn_ip
+  839  clear
+  840  logout
+  841  clear
+  842  ls
+  843  ll
+  844  zpool status
+  845  zpool status -c temps
+  846  zpool status -c temp
+  847  loogut
+  848  logout
+  849  clear
+  850  zpool status
+  851  cd scripts
+  852  ls
+  853  ll
+  854  cat get_d
+  855  cat get_dyn_ip
+  856  ./get_dyn_ip
+  857  clear
+  858  ls
+  859  cat summary
+  860  zpool get -H health
+  861  zpool get -H fragmentation
+  862  zpool status -c temp
+  863  zpool get -H capacity
+  864  clear
+  865  ls
+  866  cat get_dyn_ip
+  867  cat /var/mail/sadmin
+  868  history
+  869  cat /var/log/mail.log
+  870  clear
+  871  cat get_dyn_ip
+  872  clear
+  873  logout
+  874  cd scripts/
+  875  ls
+  876  rm get_dyn_ip
+  877  vim get_ip
+  878  chmod +x get_ip
+  879  ./get_ip
+  880  vim get_ip
+  881  ./get_ip
+  882  vim get_ip
+  883  ./get_ip
+  884  vim get_ip
+  885  cd ..
+  886  cd config
+  887  ls
+  888  cat dynip.conf
+  889  cat drives.conf
+  890  clear
+  891  sudo apt update
+  892  sudo apt install fail2ban
+  893  logout
+  894  sudo systemctl start fail2ban
+  895  sudo systemctl status fail2ban
+  896  sudo vim /etc/fail2ban/jail.local
+  897  sudo systemctl restart fail2ban
+  898  sudo systemctl status fail2ban
+  899  sudo cat /etc/fail2ban/jail.conf
+  900  logout
+  901  cd scripts
+  902  ls
+  903  cd get_dyn_ip
+  904  cd ../config/
+  905  ls
+  906  TEST=$(head -n 1 dyn_ip.conf)
+  907  echo $TEST
+  908  mv dyn_ip.conf dynip.conf
+  909  cd ..
+  910  cd scripts/
+  911  ls
+  912  vim get_dyn_ip
+  913  cd ..
+  914  ls
+  915  logout
+  916  cd logs/
+  917  ls
+  918  tree
+  919  cat export_cleanup/del-20190820.log
+  920  cat export_cleanup/del-20190811.log
+  921  cat export_cleanup/del-20190805
+  922  cat export_cleanup/del-20190805.log
+  923  cat export_cleanup/del-20190809.log
+  924  clear
+  925  cd
+  926  ls
+  927  cd scripts/
+  928  ls
+  929  cat del_exports
+  930  crontab -e
+  931  ls
+  932  cd scripts
+  933  ls
+  934  cat get_ip
+  935  ./get_ip
+  936  ls
+  937  crontab -e
+  938  clear
+  939  crontab -l
+  940  logout
+  941  exit
+  942  crontab -e
+  943  sudo -s
+  944  zpool status
+  945  ufw status
+  946  sudo ufw status
+  947  logout
+  948  clear
+  949  ls
+  950  cd logs/
+  951  ls
+  952  tree
+  953  cat warnings/20190720-16\:00_warning.log
+  954  clear
+  955  cd /RAID1/
+  956  ls
+  957  cd archive/
+  958  ls
+  959  logout
+  960  clear
+  961  ls
+  962  cd scripts/
+  963  ls
+  964  cat chk_status
+  965  clear
+  966  zpool status
+  967  clear
+  968  logout
+  969  cd scripts/
+  970  clear
+  971  logout
+  972  cd /RAID1/
+  973  ls
+  974  cd media/
+  975  ls
+  976  ls -sla
+  977  cd ..
+  978  ls
+  979  cd projects/
+  980  ls
+  981  cd ..
+  982  ls
+  983  cd archive/
+  984  ls
+  985  cd 01_Projekte/
+  986  ls
+  987  history
+  988  cat history > bck_history
+  989  history > bck_history
