@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIR=/home/sadmin
-exec &> $DIR/logs/summaries/$(date +%Y%m%d)_summary.txt
+exec &> $DIR/logs/summaries/$(date +%Y%m%d)_summary.log
 
 # --- get all block devices
 DISKS=()
@@ -42,5 +42,5 @@ for i in "${DISKS[@]}"; do
     fi
 done
 echo ""
-# --- send summary via mail 
-echo "<pre>$(cat $DIR/logs/summaries/$(date +%Y%m%d)_summary.txt)</pre>" | mail -a "From: PPE Storage <messages@ppe.live>" -a "Content-type: text/html" -s "PPE Storage - Weekly summary" pbuchinger@protonmail.ch
+# --- send summary via mail
+echo "<pre>$(cat $DIR/logs/summaries/$(date +%Y%m%d)_summary.log)</pre>" | mail -a "From: " -a "Content-type: text/html" -s ""
