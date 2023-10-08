@@ -27,7 +27,7 @@ for i in "${POOLS[@]}"; do
     STATE=$(/sbin/zpool get -H health $i | cut -f3)
     if [[ "$STATE" != "ONLINE" ]]; then
         echo "ATTENTION: $i is in an abnormal state: $STATE"
-        WARNING=true 
+        WARNING=true
     fi
 done
 
@@ -42,8 +42,8 @@ for i in "${DISKS[@]}"; do
 done
 
 if [[ "$WARNING" == "true" ]]; then
-    # --- send summary via mail 
-    echo "<pre>$(cat $DIR/logs/warnings/$(date +%Y%m%d-%H:%M)_warning.log)</pre>" | mail -a "From: PPE Storage <messages@ppe.live>" -a "Content-type: text/html" -s "PPE Storage - WARNING" pbuchinger@protonmail.ch office@performance-picture.at
+    # --- send summary via mail
+    echo "<pre>$(cat $DIR/logs/warnings/$(date +%Y%m%d-%H:%M)_warning.log)</pre>" | mail -a "From:" -a "Content-type: text/html" -s ""
 else
     # --- delete empty warning log
     rm -f $DIR/logs/warnings/$(date +%Y%m%d-%H:%M)_warning.log
