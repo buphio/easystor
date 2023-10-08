@@ -41,16 +41,10 @@ sudo ufw allow 'Samba' \
     && sudo mv /etc/samba/smb.conf{,.backup} \
     && sudo cp smb.conf /etc/samba/smb.conf \
     && sudo groupadd storage \
-    && sudo useradd -M -s /usr/sbin/nologin -G storage andreas \
-    && sudo useradd -M -s /usr/sbin/nologin -G storage david \
     && sudo useradd -M -s /usr/sbin/nologin -G storage sadmin \
     && sudo chown storage:sadmin /RAID1/archive \
     && sudo chmod 2770 /RAID1/archive \
     && sudo smbpasswd -a sadmin \
     && sudo smbpasswd -e sadmin \
-    && sudo smbpasswd -a andreas \
-    && sudo smbpasswd -e andreas \
-    && sudo smbpasswd -a david \
-    && sudo smbpasswd -e david \
     && sudo systemctl restart nmbd
 check_status
