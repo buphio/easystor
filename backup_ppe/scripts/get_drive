@@ -1,9 +1,0 @@
-#!/bin/bash
-
-DIR=/home/sadmin
-
-if [ -z $1 ]; then 
-    echo "ERROR: missing argument: drive-uuid"
-else
-    grep $1 $DIR/config/drives.conf | cut -f1
-fi
