@@ -1,8 +1,0 @@
-#!/bin/sh 
-
-DIR=/home/sadmin
-
-find /RAID1/archive/99_Export/ -mtime +14 -exec echo >> $DIR/logs/export_cleanup/del-$(date +%Y%m%d).log {} \;
-find /RAID1/archive/99_Export/ -mtime +14 -exec rm -rf {} \;
-find $DIR/logs/export_cleanup/ -empty -type f -delete
-
